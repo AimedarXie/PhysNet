@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.ckpt*
+checkpoint
+*.npz
+*.npy
+*.log
+*.out
+config.local.json
+validation.local.json
+benchmark.local.json
+.venv/

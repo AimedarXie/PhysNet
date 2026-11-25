@@ -1,0 +1,17 @@
+{
+  "checkpoint": "/path/to/best_model.ckpt",
+  "charge": 0,
+  "F": 64,
+  "K": 32,
+  "num_blocks": 3,
+  "num_residual_atomic": 2,
+  "num_residual_interaction": 3,
+  "num_residual_output": 1,
+  "sr_cut": 6.0,
+  "use_electrostatic": true,
+  "use_dispersion": true,
+  "s6": 1.0,
+  "s8": 2.355,
+  "a1": 0.5238,
+  "a2": 3.5016
+}
