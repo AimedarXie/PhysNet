@@ -1,9 +1,14 @@
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import numpy as np
 import ase
 from ase.neighborlist import neighbor_list
-from .neural_network.NeuralNetwork import *
-from .neural_network.activation_fn import *
+if __package__:
+    from .neural_network.NeuralNetwork import *
+    from .neural_network.activation_fn import *
+else:
+    from neural_network.NeuralNetwork import *
+    from neural_network.activation_fn import *
 
 '''
 Calculator for the atomic simulation environment (ASE)
