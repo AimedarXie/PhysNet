@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-25",
+  "tensorflow": "2.5.0",
+  "ase": "3.22.1",
+  "device": "NVIDIA GeForce RTX 3090",
+  "tf32": false,
+  "frames": 16,
+  "repeats": 3,
+  "description": "Synthetic perturbations near one ODME geometry; timing excludes initialization, JSON transport and RPMD integration. Not a production trajectory benchmark.",
+  "cpu_unit_tests": {
+    "count": 4,
+    "passed": true
+  },
+  "models": {
+    "dme": {
+      "frames": 16,
+      "units": "model energy units; coordinates in Angstrom; forces = -dE/dR",
+      "batch_seconds": [
+        0.010769706685096025,
+        0.010842388030141592,
+        0.010312038008123636
+      ],
+      "energy_max_abs_error": 1.9073486328125e-06,
+      "force_max_abs_error": 9.059906005859375e-06,
+      "sequential_seconds": [
+        0.15339948795735836,
+        0.15364686492830515,
+        0.1538398996926844
+      ],
+      "speedup": 14.26657841489164,
+      "tolerance": 0.0001,
+      "passed": true
+    },
+    "diff": {
+      "frames": 16,
+      "units": "model energy units; coordinates in Angstrom; forces = -dE/dR",
+      "batch_seconds": [
+        0.014219251926988363,
+        0.014414325822144747,
+        0.013894663657993078
+      ],
+      "energy_max_abs_error": 3.5762786865234375e-07,
+      "force_max_abs_error": 1.3113021850585938e-06,
+      "sequential_seconds": [
+        0.21643833117559552,
+        0.21593312779441476,
+        0.2176114870235324
+      ],
+      "speedup": 15.221499153889535,
+      "tolerance": 0.0001,
+      "passed": true
+    }
+  }
+}

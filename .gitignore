@@ -10,3 +10,7 @@ config.local.json
 validation.local.json
 benchmark.local.json
 .venv/
+DME_E_check
+diff_E_check
+DME_log
+diff_log

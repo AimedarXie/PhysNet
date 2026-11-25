@@ -48,6 +48,11 @@ python examples/batch_inference/predict.py your_frames.xyz --config config.local
 python examples/batch_inference/predict.py your_frames.xyz --config config.local.json --compare --repeats 5 > benchmark.local.json
 ```
 
+For reproducible FP32 comparisons on NVIDIA Ampere GPUs, set
+`export NVIDIA_TF32_OVERRIDE=0` **before starting Python**. TF32 may select different
+matrix kernels for sequential and batched shapes and noticeably change forces.
+Always compare both energy and forces with your actual checkpoint and precision settings.
+
 The supplied water XYZ demonstrates the file format only; use configurations
 within your model's training domain. The comparison performs exactly one session
 execution per configuration in the sequential route, warms up both routes, alternates
@@ -67,6 +72,19 @@ Tests use a small, randomly initialized neural network, with electrostatics and
 dispersion enabled. They check sequential/batch equivalence for 1, 2 and 16 frames,
 mixed atom counts, permutation, segment independence and energy-only evaluation.
 They validate the batching implementation, not the physical quality of a PES.
+
+Recorded validation (2026-11-25): four CPU numerical tests passed. On an RTX 3090,
+TF 2.5.0 with TF32 disabled, 16 slightly perturbed ODME configurations and three
+timing repeats gave:
+
+| Model | Sequential median | Batch median | Speedup | Max energy difference (kcal/mol) | Max force difference (kcal/mol/Angstrom) |
+|---|---:|---:|---:|---:|---:|
+| DME | 0.15365 s | 0.01077 s | 14.27 | 1.91e-6 | 9.06e-6 |
+| diff | 0.21644 s | 0.01422 s | 15.22 | 3.58e-7 | 1.31e-6 |
+
+Raw timing samples and test metadata are in `tests/validation_summary.json`.
+These results use external private checkpoints and a small synthetic configuration
+set; they are not an end-to-end RPMD benchmark or a general accuracy guarantee.
 
 ### RPMDrate example / 双势能接口
 
@@ -126,7 +144,7 @@ workers for new production dynamics. The generic batch calculator does not add p
   seconds, stderr is inherited to avoid an unread pipe, and explicit close is provided.
 - No checkpoints, private datasets, server account paths or trajectory logs are included.
 
-## Requirements
+## Original training requirements
 
 To run this software, you need:
 
@@ -135,7 +153,7 @@ To run this software, you need:
 
 
 
-## How to use
+## Original training usage
 
 Edit the config.txt file to specify hyperparameters, dataset location, training/validation set size etc.
 (see "train.py" for a list of all options)
@@ -158,5 +176,3 @@ If you find this software useful, please cite:
 ```
 Unke, O. T. and Meuwly, M. "PhysNet: A Neural Network for Predicting Energies, Forces, Dipole Moments and Partial Charges" arxiv:1902.08408 (2019).
 ```
-
-
