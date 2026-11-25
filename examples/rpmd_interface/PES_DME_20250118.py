@@ -20,10 +20,10 @@ import os
 
 def initialize_potential():
     # An example for atoms object, while it is used for initialization as well.
-    
+
     # You should first verify the atom list Z of the molecule.
     Z = np.array([8, 6, 1, 1, 1, 6, 1, 1, 1], dtype=np.int64)
-    
+
     # Cartesian coordinates R are list following the atom list Z.
     # !!!!Be carfull! The example used is in angstrom, but the rpmd used bohr.
     R = np.array(
@@ -40,7 +40,7 @@ def initialize_potential():
 
     # Construct the atoms object
     atoms = Atoms(numbers = Z, positions = R)
-    
+
     # Initialize the NNCalculator
     global calc
     calc = NNCalculator(
@@ -68,10 +68,10 @@ def get_potential(q, call_count):
 
     Natoms = q.shape[1]
     Nbeads = q.shape[2]
-    
+
     V = np.zeros(Nbeads)
     dVdq = np.zeros((Nbeads, Natoms, 3))
-  
+
     # Transpose q(3, Natoms, Nbeads)(Bohr) into R(3, Natoms, Nbeads)(Angstrom).
     R = np.transpose(q, (2, 1, 0)) * 0.529177208
     Z = np.array([8, 6, 1, 1, 1, 6, 1, 1, 1], dtype=np.int32)
@@ -97,15 +97,15 @@ def get_potential(q, call_count):
         angle_with_plane  = 90 - angle_degrees
 
         return angle_with_plane
-    
+
     def constrain_ch(P1, P2):
         distance = np.linalg.norm(P1 - P2)
-        
+
         # Check if the distance is greater than 2
         if distance > 10 or distance < 0.8:
             return 1
         else:
-            return 0       
+            return 0
 
     atoms_list = [Atoms(numbers=Z, positions=R[i][:9, ]) for i in range(Nbeads)]
     energies, forces = calc.get_energy_forces_batch(atoms_list, need_forces=True)
@@ -143,15 +143,15 @@ def get_potential(q, call_count):
 
             # 计算键长
             bond_length = np.linalg.norm(bond_vector)
-            
+
             if constrain_ch(M[start_atom], M[end_atom]) == 1:
 
                 # 计算约束势能
                 constraint_potential += 100 * (bond_length - eq_length) ** 2
-    
+
                 # 计算势能梯度
                 #gradient = 100 * 2 * (bond_length - eq_length) * (bond_vector / bond_length)
-    
+
                 # 将梯度加入梯度矩阵的起点和终点位置
                 #gradient_matrix[start_atom] += gradient
                 #gradient_matrix[end_atom] -= gradient

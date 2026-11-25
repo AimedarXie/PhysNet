@@ -30,13 +30,13 @@ def initialize_potential():
     python_path = os.environ["PHYSNET_PYTHON"]
     here = os.path.dirname(os.path.abspath(__file__))
 
-    process1 = subprocess.Popen([python_path, os.path.join(here, 'PES_DME_20250118.py')], 
+    process1 = subprocess.Popen([python_path, os.path.join(here, 'PES_DME_20250118.py')],
                                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
     init_cmd = json.dumps({"command": "initialize_potential"})
     process1.stdin.write(init_cmd + '\n')
     process1.stdin.flush()
 
-    process2 = subprocess.Popen([python_path, os.path.join(here, 'PES_diff_20250224.py')], 
+    process2 = subprocess.Popen([python_path, os.path.join(here, 'PES_diff_20250224.py')],
                                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
     process2.stdin.write(init_cmd + '\n')
     process2.stdin.flush()

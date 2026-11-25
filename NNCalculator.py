@@ -104,7 +104,7 @@ class NNCalculator:
         self._calculate_all_properties(atoms)
 
     def calculation_required(self, atoms, quantities=None):
-        return atoms != self.last_atoms        
+        return atoms != self.last_atoms
 
     def _calculate_all_properties(self, atoms):
         #find neighbors and offsets
